@@ -11,7 +11,7 @@ const routes = require("./router/index");
 const dbConnect = require("./utils/dbConnect");
 const passport = require("passport");
 const User = require("./model/User");
-const LocalStrategy = require("passport-local");
+// const LocalStrategy = require("passport-local");
 const ROOT_URL = dev ? `http://localhost:${PORT}` : process.env.PRODUCTION_URL;
 
 // Loads all variables from .env file to "process.env"
