@@ -1,23 +1,21 @@
-const express = require('express');
-const next = require('next');
-const dev = process.env.NODE_ENV !== 'production';
+const express = require("express");
+const next = require("next");
+const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const PORT = 3000;
-const mongoose = require('mongoose');
-const session = require('express-session');
-const mongoSessionStore = require('connect-mongo');
-const camp = require('./router/camp');
-const auth = require('./router/auth');
-const routes = require('./router/index');
-const dbConnect = require('./utils/dbConnect');
-const passport = require('passport');
-const User = require('./model/User');
-const LocalStrategy = require('passport-local');
-// const ROOT_URL = dev ? `http://localhost:${PORT}` : process.env.PRODUCTION_URL;
+const PORT = process.env.PORT || 3000;
+const mongoose = require("mongoose");
+const session = require("express-session");
+const mongoSessionStore = require("connect-mongo");
+const routes = require("./router/index");
+const dbConnect = require("./utils/dbConnect");
+const passport = require("passport");
+const User = require("./model/User");
+const LocalStrategy = require("passport-local");
+const ROOT_URL = dev ? `http://localhost:${PORT}` : process.env.PRODUCTION_URL;
 
 // Loads all variables from .env file to "process.env"
-require('dotenv').config();
+require("dotenv").config();
 
 // db connect
 dbConnect();
@@ -29,11 +27,11 @@ app.prepare().then(() => {
   server.use(express.json({ extended: false }));
 
   /* give all Next.js's requests to Next.js server */
-  server.get('/_next/*', (req, res) => {
+  server.get("/_next/*", (req, res) => {
     handle(req, res);
   });
 
-  server.get('/static/*', (req, res) => {
+  server.get("/static/*", (req, res) => {
     handle(req, res);
   });
 
@@ -41,8 +39,8 @@ app.prepare().then(() => {
   const MongoStore = mongoSessionStore(session);
 
   const sessionConfig = {
-    name: 'next-connect.sid',
-    secret: 'keyboard cat',
+    name: "next-connect.sid",
+    secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
@@ -57,7 +55,7 @@ app.prepare().then(() => {
 
   if (!dev) {
     sessionConfig.cookie.secure = true; // serve secure cookies in production environment
-    server.set('trust proxy', 1); // trust first proxy
+    server.set("trust proxy", 1); // trust first proxy
   }
 
   server.use(session(sessionConfig));
@@ -76,7 +74,7 @@ app.prepare().then(() => {
     next();
   });
 
-  server.use('/', routes);
+  server.use("/", routes);
 
   /* Error handling from async / await functions */
   server.use((err, req, res, next) => {
@@ -85,14 +83,14 @@ app.prepare().then(() => {
   });
 
   /* create custom routes with route params */
-  server.get('/profile/:userId', (req, res) => {
+  server.get("/profile/:userId", (req, res) => {
     const routeParams = Object.assign({}, req.params, req.query);
-    return app.render(req, res, '/profile', routeParams);
+    return app.render(req, res, "/profile", routeParams);
   });
 
-  server.all('*', (req, res) => {
+  server.all("*", (req, res) => {
     return handle(req, res);
   });
 
-  server.listen(PORT, () => console.log('server is running'));
+  server.listen(PORT, () => console.log("server is running"));
 });

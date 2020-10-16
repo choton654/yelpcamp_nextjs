@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
-const User = require('../model/User');
-const multer = require('multer');
-const jimp = require('jimp');
+const mongoose = require("mongoose");
+const User = require("../model/User");
+const multer = require("multer");
+const jimp = require("jimp");
 
 exports.getUsers = async (req, res) => {
-  const users = await User.find().select('_id name email createdAt updatedAt');
+  const users = await User.find().select("_id name email createdAt updatedAt");
   res.json(users);
 };
 
 exports.getAuthUser = async (req, res) => {
   if (!req.isAuthUser) {
-    res.status(403).json({ msg: 'You are not authorized' });
-    return res.redirect('/signin');
+    res.status(403).json({ msg: "You are not authorized" });
+    return res.redirect("/signin");
   }
   res.json(req.user);
 };
@@ -34,7 +34,7 @@ exports.deleteUser = async (req, res, next) => {
   const { userId } = req.params;
 
   if (!req.isAuthUser) {
-    return res.status(400).json({ msg: 'You are not authorize' });
+    return res.status(400).json({ msg: "You are not authorize" });
   }
 
   const deletedUser = await User.findOneAndDelete({ _id: userId });
@@ -43,7 +43,7 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.getUserProfile = async (req, res, next) => {
   if (!req.profile) {
-    return res.status(403).json({ msg: 'No user found' });
+    return res.status(403).json({ msg: "No user found" });
   }
   res.json(req.profile);
 };
@@ -55,7 +55,7 @@ exports.getUserFeed = async (req, res) => {
 
   const users = await User.find({
     _id: { $nin: following },
-  }).select('_id name avatar');
+  }).select("_id name avatar");
   res.json(users);
 };
 
@@ -66,7 +66,7 @@ const avatarUploadOptions = {
     fileSize: 1024 * 1024 * 1,
   },
   fileFilter: (req, file, next) => {
-    if (file.mimetype.startsWith('image/')) {
+    if (file.mimetype.startsWith("image/")) {
       next(null, true);
     } else {
       next(null, false);
@@ -74,13 +74,13 @@ const avatarUploadOptions = {
   },
 };
 
-exports.uploadAvatar = multer(avatarUploadOptions).single('avatar');
+exports.uploadAvatar = multer(avatarUploadOptions).single("avatar");
 
 exports.resizeAvatar = async (req, res, next) => {
   if (!req.file) {
     return next();
   }
-  const extension = req.file.mimetype.split('/')[1];
+  const extension = req.file.mimetype.split("/")[1];
   req.body.avatar = `/static/uploads/avatars/${
     req.user.name
   }-${Date.now()}.${extension}`;

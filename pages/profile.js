@@ -10,13 +10,13 @@ import {
   ListItemText,
   Paper,
   Typography,
-} from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Edit from '@material-ui/icons/Edit';
-import Link from 'next/link';
-import DeleteUser from '../components/profile/DeleteUser';
-import { FollowUser } from '../components/profile/FollowUser';
-import ProfileTabs from '../components/profile/ProfileTabs';
+} from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Edit from "@material-ui/icons/Edit";
+import Link from "next/link";
+import DeleteUser from "../components/profile/DeleteUser";
+import { FollowUser } from "../components/profile/FollowUser";
+import ProfileTabs from "../components/profile/ProfileTabs";
 import {
   addComment,
   deleteComment,
@@ -25,8 +25,8 @@ import {
   getUser,
   likePost,
   unLikePost,
-} from '../lib/api';
-import { authInitialProps } from '../lib/auth';
+} from "../lib/api";
+import { authInitialProps } from "../lib/auth";
 class Profile extends React.Component {
   state = {
     posts: [],
@@ -145,11 +145,12 @@ class Profile extends React.Component {
     return (
       <Paper className={classes.root} elevation={4}>
         <Typography
-          variant='h4'
-          component='h1'
-          align='center'
+          variant="h4"
+          component="h1"
+          align="center"
           className={classes.title}
-          gutterBottom>
+          gutterBottom
+        >
           Profile
         </Typography>
         {isLoading ? (
@@ -170,9 +171,9 @@ class Profile extends React.Component {
 
               {isAuth ? (
                 <ListItemSecondaryAction>
-                  <Link href='/edit-profile'>
+                  <Link href="/edit-profile">
                     <a>
-                      <IconButton color='primary'>
+                      <IconButton color="primary">
                         <Edit />
                       </IconButton>
                     </a>
@@ -216,8 +217,8 @@ const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
     marginTop: theme.spacing(5),
-    margin: 'auto',
-    [theme.breakpoints.up('sm')]: {
+    margin: "auto",
+    [theme.breakpoints.up("sm")]: {
       width: 600,
     },
   },
@@ -228,10 +229,10 @@ const styles = (theme) => ({
     margin: theme.spacing(2),
   },
   progressContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
   },
   bigAvatar: {
     width: 60,

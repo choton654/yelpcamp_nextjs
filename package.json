@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js -p $PORT",
     "deploy": "now --public",
     "alias": "now alias",
-    "remove:deploy": "now rm yelpcamp_nextjs"
+    "remove:deploy": "now rm yelpcamp-nextjs"
   },
   "keywords": [],
   "author": "",
